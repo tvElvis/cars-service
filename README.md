@@ -4,6 +4,13 @@
 $ npm install
 ```
 
+rename file `dev.sample.env` to `.env`
+
+```bash
+# run database in docker
+$ docker-compose up -d
+```
+
 ## Running the app
 
 ```bash

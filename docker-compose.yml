@@ -1,0 +1,12 @@
+version: "3.5"
+
+services:
+  database:
+    image: postgres:latest
+    container_name: cars_database
+    ports:
+      - "${PGSQL_PORT}:${PGSQL_PORT}"
+    environment:
+      - POSTGRES_PASSWORD=${PGSQL_USER_PASS}
+      - POSTGRES_DB=${PGSQL_DB_NAME}
+      - POSTGRES_USER=${PGSQL_USER}
