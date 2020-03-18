@@ -6,7 +6,13 @@
   "password": "root",
   "database": "cars_database",
   "entities": [
-    "dist/**/**.entity.js"
+    "./src/**/**.entity.ts"
   ],
-  "synchronize": true
+  "migrations": [
+    "./src/db/migrations/*.ts"
+  ],
+  "cli": {
+    "migrationsDir": "./src/db/migrations"
+  },
+  "synchronize": false
 }
