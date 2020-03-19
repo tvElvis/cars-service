@@ -1,6 +1,7 @@
 import { Entity, Column, CreateDateColumn, ManyToOne } from 'typeorm'
 import { BaseEntity } from '../shared/entities/base.entity';
 import { Manufacturer } from '../manufacturer/manufacturer.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity('car')
 export class Car extends BaseEntity {
@@ -15,6 +16,7 @@ export class Car extends BaseEntity {
   })
   price: number;
 
+  @Exclude()
   @ManyToOne(type => Manufacturer, manufacturer => manufacturer.cars, {
     nullable: false,
     onDelete: 'CASCADE',

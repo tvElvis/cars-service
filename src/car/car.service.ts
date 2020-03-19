@@ -14,11 +14,10 @@ export class CarService {
 
   async createCar(createCatDto: CreateCarDto): Promise<Car> {
     const manufacturer = await this.manufacturerService.findById(createCatDto.manufacturerId);
-    console.log('manufacturer', manufacturer)
 
     const car = this.carRepository.create(createCatDto);
     car.manufacturer = manufacturer;
-    console.log('car', car)
+
     return this.carRepository.save(car)
   }
 
