@@ -2,7 +2,7 @@ import { Entity, Column, CreateDateColumn, OneToOne, JoinColumn } from 'typeorm'
 import { BaseEntity } from '../shared/entities/base.entity';
 import { Car } from '../car/car.entity';
 
-@Entity()
+@Entity('owner')
 export class Owner extends BaseEntity {
   @CreateDateColumn({ type: 'timestamp' })
   purchaseDate: Date;

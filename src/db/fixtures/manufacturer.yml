@@ -1,0 +1,18 @@
+entity: manufacturer
+items: 
+  manufacturer1:
+    name: 'Audi'
+    phone: '+33670518480'
+    siret: 81948962600013
+  manufacturer2:
+    name: 'Mercedes-Benz'
+    phone: '+33431049633'
+    siret: 69312906600009
+  manufacturer3:
+    name: 'Tesla'
+    phone: '+33709513127'
+    siret: 99132153000008
+  manufacturer4:
+    name: 'Ford'
+    phone: '+33540100636'
+    siret: 75527776100002 
