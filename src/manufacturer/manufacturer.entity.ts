@@ -3,7 +3,7 @@ import { BaseEntity } from "../shared/entities/base.entity";
 import { Car } from "../car/car.entity";
 
 @Entity()
-export class Manufacurer extends BaseEntity {
+export class Manufacturer extends BaseEntity {
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
 
