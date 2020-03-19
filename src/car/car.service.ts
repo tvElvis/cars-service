@@ -1,10 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Car } from './car.entity';
-import { Repository } from 'typeorm';
+import { Repository, Like } from 'typeorm';
 import { ManufacturerService } from '../manufacturer/manufacturer.service';
 import { CreateCarDto } from './dto/create-car.dto';
 import { ResponseCarDto } from './dto/response-car.dto';
+import { FindCarListDto } from './dto/find-car-list.dto';
 
 @Injectable()
 export class CarService {
@@ -29,5 +30,22 @@ export class CarService {
       throw new NotFoundException('Car not found.');
     }
     return manufacturer;
+  }
+
+  async findCarList(query: FindCarListDto):Promise<ResponseCarDto[]> {
+    // limit and offset must not be negative
+    const take = Math.abs(+query.take) || 20;
+    const skip = Math.abs(+query.skip) || 0;
+    const filter = query.filter || '';
+
+    const productList = await this.carRepository.find({
+      where: {
+        model: Like('%' + filter + '%'),
+      },
+      take,
+      skip,
+    });
+
+    return productList;
   }
 }
