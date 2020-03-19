@@ -1,4 +1,4 @@
-import { Entity, Column, CreateDateColumn, OneToMany, ManyToOne } from 'typeorm'
+import { Entity, Column, CreateDateColumn, ManyToOne } from 'typeorm'
 import { BaseEntity } from '../shared/entities/base.entity';
 import { Manufacturer } from '../manufacturer/manufacturer.entity';
 
@@ -15,6 +15,9 @@ export class Car extends BaseEntity {
   })
   price: number;
 
-  @ManyToOne(type => Manufacturer, manufacturer => manufacturer.cars, { onDelete: 'CASCADE' })
+  @ManyToOne(type => Manufacturer, manufacturer => manufacturer.cars, {
+    nullable: false,
+    onDelete: 'CASCADE',
+  })
   manufacturer: Manufacturer;
 }

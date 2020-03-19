@@ -1,7 +1,7 @@
 export class CreateCarDto {
-  model:string;
+  model: string;
 
-  price:number;
+  price: number;
 
-  manufacturerId:string;
+  manufacturerId: string;
 }

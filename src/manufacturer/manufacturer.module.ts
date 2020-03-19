@@ -4,7 +4,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Manufacturer } from './manufacturer.entity';
 
 @Module({
-  imports:[TypeOrmModule.forFeature([Manufacturer])],
-  providers: [ManufacturerService]
+  imports: [TypeOrmModule.forFeature([Manufacturer])],
+  providers: [ManufacturerService],
+  exports: [ManufacturerService],
 })
-export class ManufacturerModule {}
+export class ManufacturerModule { }
