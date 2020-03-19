@@ -4,6 +4,7 @@ import { Car } from './car.entity';
 import { Repository } from 'typeorm';
 import { ManufacturerService } from '../manufacturer/manufacturer.service';
 import { CreateCarDto } from './dto/create-car.dto';
+import { ResponseCarDto } from './dto/response-car.dto';
 
 @Injectable()
 export class CarService {
@@ -12,7 +13,7 @@ export class CarService {
     private readonly manufacturerService: ManufacturerService,
   ) { }
 
-  async createCar(createCatDto: CreateCarDto): Promise<Car> {
+  async createCar(createCatDto: CreateCarDto): Promise<ResponseCarDto> {
     const manufacturer = await this.manufacturerService.findById(createCatDto.manufacturerId);
 
     const car = this.carRepository.create(createCatDto);
@@ -21,7 +22,7 @@ export class CarService {
     return this.carRepository.save(car)
   }
 
-  async findCarById(id: string): Promise<Car> {
+  async findCarById(id: string): Promise<ResponseCarDto> {
     const manufacturer = await this.carRepository.findOne(id);
 
     if (!manufacturer) {
