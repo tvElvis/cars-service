@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Param, UseInterceptors, ClassSerializerInterceptor, Query, Patch } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, UseInterceptors, ClassSerializerInterceptor, Query, Patch, Delete } from '@nestjs/common';
 import { CarService } from './car.service';
 import { CreateCarDto } from './dto/create-car.dto';
 import { ApiCreatedResponse, ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse } from '@nestjs/swagger';
@@ -43,5 +43,12 @@ export class CarController {
   @Patch(':id')
   updateCar(@Param('id') id: string, @Body() updateCarDto: UpdateCarDto): Promise<ResponseCarDto> {
     return this.carService.updateCar(id, updateCarDto);
+  }
+
+  @ApiOkResponse({ description: 'The car list has been successfully deleted.', type: ResponseCarDto })
+  @ApiNotFoundResponse({ description: 'Car not found.', type: NotFoundDto })
+  @Delete(':id')
+  deleteCar(@Param('id') id: string): Promise<ResponseCarDto> {
+    return this.carService.deleteCar(id);
   }
 }

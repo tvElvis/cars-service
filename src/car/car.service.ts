@@ -63,4 +63,10 @@ export class CarService {
 
     return this.findCarById(id);
   }
+
+  async deleteCar(id: string): Promise<Car> {
+    const car = await this.findCarById(id);
+    this.carRepository.delete(car.id);
+    return car
+  }
 }
