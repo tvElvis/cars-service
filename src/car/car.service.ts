@@ -69,4 +69,20 @@ export class CarService {
     this.carRepository.delete(car.id);
     return car
   }
+
+  async findCarManufacturer(id: string): Promise<Manufacturer> {
+    const car = await this.carRepository.findOne({
+      where: {
+        id,
+      },
+      relations: ['manufacturer'],
+    });
+
+    if (!car) {
+      throw new NotFoundException('Car not found.');
+    }
+    console.log('car', car.manufacturer)
+
+    return car.manufacturer;
+  }
 }

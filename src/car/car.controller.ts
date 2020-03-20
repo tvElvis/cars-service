@@ -7,6 +7,7 @@ import { InvalidPropertyDto } from '../shared/dto/invalid-property.dto';
 import { NotFoundDto } from '../shared/dto/not-found.dto';
 import { FindCarListDto } from './dto/find-car-list.dto';
 import { UpdateCarDto } from './dto/update-car.dto';
+import { ResponseManufacturerDto } from '../manufacturer/dto/response-manufacturer.dto';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('car')
@@ -52,5 +53,13 @@ export class CarController {
   @Delete(':id')
   deleteCar(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseCarDto> {
     return this.carService.deleteCar(id);
+  }
+
+  @ApiOkResponse({ description: 'The manufacturer of the car has been successfully founded.', type: ResponseManufacturerDto })
+  @ApiNotFoundResponse({ description: 'Car not found.', type: NotFoundDto })
+  @ApiBadRequestResponse({ description: 'Invalid id parameter.', type: InvalidPropertyDto })
+  @Get(':id/manufacturer')
+  findCarManufacturer(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseManufacturerDto> {
+    return this.carService.findCarManufacturer(id);
   }
 }
