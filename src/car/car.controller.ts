@@ -3,8 +3,8 @@ import { CarService } from './car.service';
 import { CreateCarDto } from './dto/create-car.dto';
 import { ApiCreatedResponse, ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse } from '@nestjs/swagger';
 import { ResponseCarDto } from './dto/response-car.dto';
-import { InvalidPropertyDto } from 'src/shared/entities/dto/invalid-property.dto';
-import { NotFoundDto } from 'src/shared/entities/dto/not-found.dto';
+import { InvalidPropertyDto } from '../shared/dto/invalid-property.dto';
+import { NotFoundDto } from '../shared/dto/not-found.dto';
 import { FindCarListDto } from './dto/find-car-list.dto';
 import { UpdateCarDto } from './dto/update-car.dto';
 
