@@ -1,0 +1,14 @@
+entity: owner
+items:
+  owner1:
+    name: 'illia kolesnikov'
+    car: '@car1'
+  owner2:
+    name: 'bob ross'
+    car: '@car2'
+  owner3:
+    name: 'sebastian fors'
+    car: '@car3'
+  owner4:
+    name: 'manuel schenkhuizen'
+    car: '@car4'

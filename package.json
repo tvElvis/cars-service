@@ -21,7 +21,7 @@
     "migrations": "ts-node ./node_modules/.bin/typeorm migration:generate -n",
     "migrate:run": "ts-node ./node_modules/.bin/typeorm  migration:run",
     "migrate:revert": "ts-node ./node_modules/.bin/typeorm migration:revert",
-    "fixtures": "fixtures ./src/db/fixtures --config ormconfig.json --require=ts-node/register --require=tsconfig-paths/register"
+    "fixtures": "fixtures ./src/db/fixtures --config ormconfig.json --sync --require=ts-node/register --require=tsconfig-paths/register"
   },
   "dependencies": {
     "@nestjs/common": "^7.0.0",
