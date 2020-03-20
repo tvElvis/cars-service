@@ -4,8 +4,9 @@ import { Car } from './car.entity';
 import { Repository, Like } from 'typeorm';
 import { ManufacturerService } from '../manufacturer/manufacturer.service';
 import { CreateCarDto } from './dto/create-car.dto';
-import { ResponseCarDto } from './dto/response-car.dto';
 import { FindCarListDto } from './dto/find-car-list.dto';
+import { UpdateCarDto } from './dto/update-car.dto';
+import { Manufacturer } from '../manufacturer/manufacturer.entity';
 
 @Injectable()
 export class CarService {
@@ -14,7 +15,7 @@ export class CarService {
     private readonly manufacturerService: ManufacturerService,
   ) { }
 
-  async createCar(createCatDto: CreateCarDto): Promise<ResponseCarDto> {
+  async createCar(createCatDto: CreateCarDto): Promise<Car> {
     const manufacturer = await this.manufacturerService.findById(createCatDto.manufacturerId);
 
     const car = this.carRepository.create(createCatDto);
@@ -23,16 +24,16 @@ export class CarService {
     return this.carRepository.save(car)
   }
 
-  async findCarById(id: string): Promise<ResponseCarDto> {
-    const manufacturer = await this.carRepository.findOne(id);
+  async findCarById(id: string): Promise<Car> {
+    const car = await this.carRepository.findOne(id);
 
-    if (!manufacturer) {
+    if (!car) {
       throw new NotFoundException('Car not found.');
     }
-    return manufacturer;
+    return car;
   }
 
-  async findCarList(query: FindCarListDto):Promise<ResponseCarDto[]> {
+  async findCarList(query: FindCarListDto): Promise<Car[]> {
     // limit and offset must not be negative
     const take = Math.abs(+query.take) || 20;
     const skip = Math.abs(+query.skip) || 0;
@@ -47,5 +48,19 @@ export class CarService {
     });
 
     return productList;
+  }
+
+  async updateCar(id: string, updateCarDto: UpdateCarDto): Promise<Car> {
+    let manufacturer: Manufacturer;
+    const car = this.carRepository.create(updateCarDto);
+
+    if (updateCarDto.manufacturerId) {
+      manufacturer = await this.manufacturerService.findById(updateCarDto.manufacturerId);
+      car.manufacturer = manufacturer;
+    }
+
+    await this.carRepository.update(id, car)
+
+    return this.findCarById(id);
   }
 }

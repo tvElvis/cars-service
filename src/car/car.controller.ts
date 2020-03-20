@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Param, UseInterceptors, ClassSerializerInterceptor, Query } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, UseInterceptors, ClassSerializerInterceptor, Query, Patch } from '@nestjs/common';
 import { CarService } from './car.service';
 import { CreateCarDto } from './dto/create-car.dto';
 import { ApiCreatedResponse, ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse } from '@nestjs/swagger';
@@ -6,6 +6,7 @@ import { ResponseCarDto } from './dto/response-car.dto';
 import { InvalidPropertyDto } from 'src/shared/entities/dto/invalid-property.dto';
 import { NotFoundDto } from 'src/shared/entities/dto/not-found.dto';
 import { FindCarListDto } from './dto/find-car-list.dto';
+import { UpdateCarDto } from './dto/update-car.dto';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('car')
@@ -34,5 +35,13 @@ export class CarController {
   @ApiBadRequestResponse({ description: 'Invalid search parameter.', type: InvalidPropertyDto })
   findCarList(@Query() query: FindCarListDto): Promise<ResponseCarDto[]> {
     return this.carService.findCarList(query);
+  }
+
+  @ApiOkResponse({ description: 'The car list has been successfully updated.', type: ResponseCarDto })
+  @ApiBadRequestResponse({ description: 'Invalid search parameter.', type: InvalidPropertyDto })
+  @ApiNotFoundResponse({ description: 'Manufacturer not found.', type: NotFoundDto })
+  @Patch(':id')
+  updateCar(@Param('id') id: string, @Body() updateCarDto: UpdateCarDto): Promise<ResponseCarDto> {
+    return this.carService.updateCar(id, updateCarDto);
   }
 }
