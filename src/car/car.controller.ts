@@ -8,6 +8,7 @@ import { NotFoundDto } from '../shared/dto/not-found.dto';
 import { FindCarListDto } from './dto/find-car-list.dto';
 import { UpdateCarDto } from './dto/update-car.dto';
 import { ResponseManufacturerDto } from '../manufacturer/dto/response-manufacturer.dto';
+import { ResponseReassignDto } from './dto/response-reassign.dto';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('car')
@@ -15,6 +16,12 @@ export class CarController {
   constructor(
     private readonly carService: CarService,
   ) { }
+
+  @ApiOkResponse({ description: 'Outdated owners removed, car\'s discounts updated.', type: ResponseReassignDto })
+  @Patch('reassign')
+  reassign(): Promise<ResponseReassignDto> {
+    return this.carService.reassign();
+  }
 
   @Post()
   @ApiCreatedResponse({ description: 'Car has been successfully created.', type: ResponseCarDto })

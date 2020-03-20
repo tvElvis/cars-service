@@ -1,18 +1,22 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Car } from './car.entity';
-import { Repository, Like } from 'typeorm';
+import { Repository, Like, Between } from 'typeorm';
 import { ManufacturerService } from '../manufacturer/manufacturer.service';
 import { CreateCarDto } from './dto/create-car.dto';
 import { FindCarListDto } from './dto/find-car-list.dto';
 import { UpdateCarDto } from './dto/update-car.dto';
 import { Manufacturer } from '../manufacturer/manufacturer.entity';
+import { OwnerService } from '../owner/owner.service';
+import * as moment from 'moment';
+import { ResponseReassignDto } from './dto/response-reassign.dto';
 
 @Injectable()
 export class CarService {
   constructor(
     @InjectRepository(Car) private readonly carRepository: Repository<Car>,
     private readonly manufacturerService: ManufacturerService,
+    private readonly ownerService: OwnerService,
   ) { }
 
   async createCar(createCatDto: CreateCarDto): Promise<Car> {
@@ -84,5 +88,27 @@ export class CarService {
     console.log('car', car.manufacturer)
 
     return car.manufacturer;
+  }
+
+  async reassign(): Promise<ResponseReassignDto> {
+    const removedOwners = await this.ownerService.removeOutdatedOwners();
+    const updatedDiscounts = await this.updateDiscounts();
+
+    return {
+      removedOwners: removedOwners.affected,
+      updatedDiscounts: updatedDiscounts.affected,
+    }
+  }
+
+  updateDiscounts() {
+    const from = moment().subtract(18, 'months').toDate();
+    const to = moment().subtract(12, 'months').toDate();
+
+    return this.carRepository.update({
+      firstRegistrationDate: Between(from, to),
+      discount: 0,
+    }, {
+      discount: 20,
+    });
   }
 }
