@@ -16,6 +16,11 @@ export class Car extends BaseEntity {
   })
   price: number;
 
+  @Column({
+    default: 0,
+  })
+  discount: number;
+
   @Exclude()
   @ManyToOne(type => Manufacturer, manufacturer => manufacturer.cars, {
     nullable: false,

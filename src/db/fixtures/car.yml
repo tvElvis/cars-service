@@ -4,19 +4,24 @@ items:
     model: 'A3'
     price: 23000
     manufacturer: '@manufacturer1'
+    discount: 0
   car2:
     model: 'AMG GT S'
     price: 31000
     manufacturer: '@manufacturer2'
+    discount: 0
   car3:
     model: 'Model S 75D'
     price: 51000
     manufacturer: '@manufacturer3'
+    discount: 0
   car4:
     model: 'Mustang 1969'
     price: 61000
     manufacturer: '@manufacturer4'
+    discount: 0
   car5:
     model: 'Mustang GT 2018'
     price: 58500
     manufacturer: '@manufacturer4'
+    discount: 0

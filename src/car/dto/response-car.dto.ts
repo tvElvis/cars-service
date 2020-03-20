@@ -36,4 +36,11 @@ export class ResponseCarDto {
     type: String,
   })
   firstRegistrationDate:Date;
+
+  @ApiProperty({
+    example: 20,
+    description: 'Discount of the car',
+    type: Number,
+  })
+  discount: number;
 }
