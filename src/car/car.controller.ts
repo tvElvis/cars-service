@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Param, UseInterceptors, ClassSerializerInterceptor, Query, Patch, Delete } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, UseInterceptors, ClassSerializerInterceptor, Query, Patch, Delete, ParseUUIDPipe } from '@nestjs/common';
 import { CarService } from './car.service';
 import { CreateCarDto } from './dto/create-car.dto';
 import { ApiCreatedResponse, ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse } from '@nestjs/swagger';
@@ -26,7 +26,8 @@ export class CarController {
   @Get(':id')
   @ApiOkResponse({ description: 'The car has been successfully founded.', type: ResponseCarDto })
   @ApiNotFoundResponse({ description: 'Car not found.', type: NotFoundDto })
-  findCarById(@Param('id') id: string): Promise<ResponseCarDto> {
+  @ApiBadRequestResponse({ description: 'Invalid id parameter.', type: InvalidPropertyDto })
+  findCarById(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseCarDto> {
     return this.carService.findCarById(id);
   }
 
@@ -38,17 +39,18 @@ export class CarController {
   }
 
   @ApiOkResponse({ description: 'The car list has been successfully updated.', type: ResponseCarDto })
-  @ApiBadRequestResponse({ description: 'Invalid search parameter.', type: InvalidPropertyDto })
+  @ApiBadRequestResponse({ description: 'Invalid car parameter.', type: InvalidPropertyDto })
   @ApiNotFoundResponse({ description: 'Manufacturer not found.', type: NotFoundDto })
   @Patch(':id')
-  updateCar(@Param('id') id: string, @Body() updateCarDto: UpdateCarDto): Promise<ResponseCarDto> {
+  updateCar(@Param('id', ParseUUIDPipe) id: string, @Body() updateCarDto: UpdateCarDto): Promise<ResponseCarDto> {
     return this.carService.updateCar(id, updateCarDto);
   }
 
   @ApiOkResponse({ description: 'The car list has been successfully deleted.', type: ResponseCarDto })
+  @ApiBadRequestResponse({ description: 'Invalid id parameter.', type: InvalidPropertyDto })
   @ApiNotFoundResponse({ description: 'Car not found.', type: NotFoundDto })
   @Delete(':id')
-  deleteCar(@Param('id') id: string): Promise<ResponseCarDto> {
+  deleteCar(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseCarDto> {
     return this.carService.deleteCar(id);
   }
 }
