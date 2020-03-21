@@ -11,6 +11,13 @@ rename file `dev.sample.env` to `.env`
 $ docker-compose up -d
 ```
 
+## Documentation
+
+```bash
+ http://localhost:3000/api/docs
+```
+
+
 ## Running the app
 
 ```bash
@@ -23,16 +30,12 @@ $ npm run start:dev
 # production mode
 $ npm run start:prod
 ```
-
-## Test
+## Migrations
 
 ```bash
-# unit tests
-$ npm run test
+# development
+$ npm run migrate:run
 
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+# production mode
+$ npm run migrate:prod
 ```
