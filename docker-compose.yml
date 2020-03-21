@@ -10,3 +10,17 @@ services:
       - POSTGRES_PASSWORD=${PGSQL_USER_PASS}
       - POSTGRES_DB=${PGSQL_DB_NAME}
       - POSTGRES_USER=${PGSQL_USER}
+  
+
+  backend:
+    build: .
+    restart: always
+    links:
+      - database:${PGSQL_HOST}
+    depends_on:
+      - database
+    ports:
+      - "0.0.0.0:${BACKEND_PORT}:${BACKEND_PORT}"
+    command: ["./wait-for-it.sh", "database:5432", "--timeout=0", "--", "npm", "run", "prod"]
+    env_file: .env
+      
