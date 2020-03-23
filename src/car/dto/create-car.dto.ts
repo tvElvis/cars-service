@@ -27,7 +27,10 @@ export class CreateCarDto {
   @IsUUID()
   manufacturerId: string;
 
-  @ApiProperty({ type: String })
+  @ApiProperty({ 
+    description: 'First registration date ISOString' ,
+    type: String,
+   })
   @IsDateString()
   firstRegistrationDate: Date;
 }

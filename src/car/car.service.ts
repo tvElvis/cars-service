@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Car } from './car.entity';
-import { Repository, Like, Between } from 'typeorm';
+import { Repository, Like, Between, UpdateResult } from 'typeorm';
 import { ManufacturerService } from '../manufacturer/manufacturer.service';
 import { CreateCarDto } from './dto/create-car.dto';
 import { FindCarListDto } from './dto/find-car-list.dto';
@@ -19,6 +19,12 @@ export class CarService {
     private readonly ownerService: OwnerService,
   ) { }
 
+  /**
+   * Create new car method
+   *
+   * @param {CreateCarDto} createCarDto object with new car params
+   * @return {Promise<Car>} A created car 
+   */
   async createCar(createCatDto: CreateCarDto): Promise<Car> {
     const manufacturer = await this.manufacturerService.findById(createCatDto.manufacturerId);
 
@@ -28,6 +34,12 @@ export class CarService {
     return this.carRepository.save(car)
   }
 
+  /**
+   * Find car by id method
+   *
+   * @param {string} id id of the searched car
+   * @return {Promise<Car>} Finded car 
+   */
   async findCarById(id: string): Promise<Car> {
     const car = await this.carRepository.findOne(id);
 
@@ -37,6 +49,12 @@ export class CarService {
     return car;
   }
 
+  /**
+   * Find many cars method
+   *
+   * @param {FindCarListDto} query query cars
+   * @return {Promise<Car[]>} An array of finded cars
+   */
   async findCarList(query: FindCarListDto): Promise<Car[]> {
     // limit and offset must not be negative
     const take = Math.abs(+query.take) || 20;
@@ -54,6 +72,13 @@ export class CarService {
     return productList;
   }
 
+  /**
+   * Update car method
+   *
+   * @param {string} id id of the updated car
+   * @param {UpdateCarDto} updateCarDto object with optional fields
+   * @return {Promise<Car>} An updated car
+   */
   async updateCar(id: string, updateCarDto: UpdateCarDto): Promise<Car> {
     let manufacturer: Manufacturer;
     const car = this.carRepository.create(updateCarDto);
@@ -68,12 +93,24 @@ export class CarService {
     return this.findCarById(id);
   }
 
+  /**
+   * Delete car method
+   *
+   * @param {string} id Id of the car to delete
+   * @return {Promise<Car>} Deleted car
+   */
   async deleteCar(id: string): Promise<Car> {
     const car = await this.findCarById(id);
     this.carRepository.delete(car.id);
     return car
   }
 
+  /**
+   * Find manufacturer of the car by car id
+   *
+   * @param {string} id Id of the car
+   * @return {Promise<Manufacturer>} Manufacturer of the car
+   */
   async findCarManufacturer(id: string): Promise<Manufacturer> {
     const car = await this.carRepository.findOne({
       where: {
@@ -89,6 +126,11 @@ export class CarService {
     return car.manufacturer;
   }
 
+  /**
+   * A method to remove the owners who bought their cars before the last 18 months and apply a discount of 20% to all cars having a date of first registration between 12 and 18 months 
+   *
+   * @return {Promise<ResponseProceedDto>} Info about amount of removed owners and updated discounts
+   */
   async proceed(): Promise<ResponseProceedDto> {
     const removedOwners = await this.ownerService.removeOutdatedOwners();
     const updatedDiscounts = await this.updateDiscounts();
@@ -99,7 +141,12 @@ export class CarService {
     }
   }
 
-  updateDiscounts() {
+  /**
+   * A method to apply 20% to all cars having a date of first registration between 12 and 18 months 
+   *
+   * @return {Promise<ResponseProceedDto>} Info about amount of removed owners and updated discounts
+   */
+  private updateDiscounts(): Promise<UpdateResult> {
     const from = moment().subtract(18, 'months').toDate();
     const to = moment().subtract(12, 'months').toDate();
 

@@ -7,6 +7,12 @@ import { Repository } from 'typeorm';
 export class ManufacturerService {
   constructor(@InjectRepository(Manufacturer) private readonly manufacturerRepository: Repository<Manufacturer>) { }
 
+  /**
+   * Find manufacturer method
+   *
+   * @param {string} id Id of the manufacturer
+   * @return {Promise<Manufacturer>} Manufacturer
+   */
   async findById(id: string): Promise<Manufacturer> {
     const manufacturer = await this.manufacturerRepository.findOne(id);
 
