@@ -85,7 +85,6 @@ export class CarService {
     if (!car) {
       throw new NotFoundException('Car not found.');
     }
-    console.log('car', car.manufacturer)
 
     return car.manufacturer;
   }

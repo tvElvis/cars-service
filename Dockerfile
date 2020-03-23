@@ -8,12 +8,6 @@ COPY . .
 
 RUN npm run build
 
-
-# RUN mkdir -p /src
-# RUN mkdir -p /src/db
-# RUN mkdir -p /src/db/migrations
-# COPY src/db/ src/db/
-
 FROM node:alpine as node_modules
 WORKDIR /tmp/
 COPY package.json package-lock.json ./
