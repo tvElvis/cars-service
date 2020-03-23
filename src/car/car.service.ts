@@ -9,7 +9,7 @@ import { UpdateCarDto } from './dto/update-car.dto';
 import { Manufacturer } from '../manufacturer/manufacturer.entity';
 import { OwnerService } from '../owner/owner.service';
 import * as moment from 'moment';
-import { ResponseReassignDto } from './dto/response-reassign.dto';
+import { ResponseProceedDto } from './dto/response-proceed.dto';
 
 @Injectable()
 export class CarService {
@@ -90,7 +90,7 @@ export class CarService {
     return car.manufacturer;
   }
 
-  async reassign(): Promise<ResponseReassignDto> {
+  async proceed(): Promise<ResponseProceedDto> {
     const removedOwners = await this.ownerService.removeOutdatedOwners();
     const updatedDiscounts = await this.updateDiscounts();
 

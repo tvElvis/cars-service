@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 
-export class ResponseReassignDto {
+export class ResponseProceedDto {
   @ApiProperty({
     example: 10,
     description: 'Amount of deleted owners',
