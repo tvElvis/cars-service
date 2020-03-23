@@ -1,4 +1,4 @@
-import { IsString, Length, IsNumber, Min, IsUUID } from 'class-validator';
+import { IsString, Length, IsNumber, Min, IsUUID, IsDateString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateCarDto {
@@ -26,4 +26,8 @@ export class CreateCarDto {
   })
   @IsUUID()
   manufacturerId: string;
+
+  @ApiProperty({ type: String })
+  @IsDateString()
+  firstRegistrationDate: Date;
 }

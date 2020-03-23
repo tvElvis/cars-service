@@ -1,11 +1,15 @@
-import { Entity, Column, CreateDateColumn, ManyToOne } from 'typeorm'
+import { Entity, Column, ManyToOne, OneToMany } from 'typeorm'
 import { BaseEntity } from '../shared/entities/base.entity';
 import { Manufacturer } from '../manufacturer/manufacturer.entity';
 import { Exclude } from 'class-transformer';
+import { Owner } from '../owner/owner.entity';
 
 @Entity('car')
 export class Car extends BaseEntity {
-  @CreateDateColumn({ type: 'timestamp' })
+  @Column({
+    type: 'timestamp',
+    nullable: false,
+  })
   firstRegistrationDate: Date;
 
   @Column({ length: 50 })
@@ -27,4 +31,7 @@ export class Car extends BaseEntity {
     onDelete: 'CASCADE',
   })
   manufacturer: Manufacturer;
+
+  @OneToMany(type => Owner, owner => owner.car, { nullable: true, eager: true })
+  owners: Owner[];
 }

@@ -4,9 +4,6 @@ import { Car } from "../car/car.entity";
 
 @Entity('manufacturer')
 export class Manufacturer extends BaseEntity {
-  @CreateDateColumn({ type: 'timestamp' })
-  createdAt: Date;
-
   @Column({ length: 60 })
   name: string;
 
