@@ -20,7 +20,7 @@ services:
     depends_on:
       - database
     ports:
-      - "0.0.0.0:${BACKEND_PORT}:${BACKEND_PORT}"
+      - "0.0.0.0:3000:3000"
     command: ["./wait-for-it.sh", "database:5432", "--timeout=0", "--", "npm", "run", "prod"]
     env_file: .env
       
