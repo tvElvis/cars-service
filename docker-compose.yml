@@ -5,7 +5,7 @@ services:
     image: postgres:latest
     container_name: cars_database
     ports:
-      - "${PGSQL_PORT}:${PGSQL_PORT}"
+      - "5432:5432"
     environment:
       - POSTGRES_PASSWORD=${PGSQL_USER_PASS}
       - POSTGRES_DB=${PGSQL_DB_NAME}
